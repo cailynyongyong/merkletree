@@ -1,5 +1,5 @@
-const { keccak256 } = require('ethereum-cryptography/keccak');
-const { bytesToHex } = require('ethereum-cryptography/utils');
+const { keccak256 } = require("ethereum-cryptography/keccak");
+const { bytesToHex } = require("ethereum-cryptography/utils");
 
 class MerkleTree {
   constructor(leaves) {
@@ -28,20 +28,16 @@ class MerkleTree {
         newLayer.push(this.concat(left, right));
 
         if (i === index || i === index - 1) {
-          let isLeft = !(index % 2);
+          let isLeft = !(index % 2); //say i = 0, data is A. then isLeft is true.
           proof.push({
-            data: isLeft ? bytesToHex(right) : bytesToHex(left),
-            left: !isLeft,
+            data: isLeft ? bytesToHex(right) : bytesToHex(left), //if true, then data = right??  OH SO YOU"RE PUSHING THE RIGHT ONE
+            left: !isLeft, // false
           });
         }
       }
     }
 
-    return this.getProof(
-      Math.floor(index / 2),
-      newLayer,
-      proof
-    );
+    return this.getProof(Math.floor(index / 2), newLayer, proof);
   }
 
   // private function
